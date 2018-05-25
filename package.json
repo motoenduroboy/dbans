@@ -1,0 +1,26 @@
+{
+  "name": "dbans",
+  "description": "An API to communicate with bans.discordlist.net",
+  "author": "motoenduroboy",
+  "main": "index.js",
+  "version": "0.0.1",
+  "dependencies": {
+    "js-cache": "^1.0.3",
+    "request": "^2.87.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/motoenduroboy/pasteeAPI"
+  },
+  "license": "MIT",
+  "keywords": [
+    "dbans",
+    "bans.discordlist.net",
+    "dbans api",
+    "bans.discordlist.net api"
+  ],
+  "bugs": {
+    "url": "https://github.com/motoenduroboy/pasteeAPI/issues"
+  },
+  "homepage": "https://github.com/motoenduroboy/pasteeAPI"
+}
