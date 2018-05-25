@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/motoenduroboy/pasteeAPI"
+    "url": "https://github.com/motoenduroboy/dbans"
   },
   "license": "MIT",
   "keywords": [
@@ -20,7 +20,7 @@
     "bans.discordlist.net api"
   ],
   "bugs": {
-    "url": "https://github.com/motoenduroboy/pasteeAPI/issues"
+    "url": "https://github.com/motoenduroboy/dbans/issues"
   },
-  "homepage": "https://github.com/motoenduroboy/pasteeAPI"
+  "homepage": "https://github.com/motoenduroboy/dbans"
 }
