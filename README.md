@@ -1,5 +1,5 @@
 # DBans [![Build Status](https://travis-ci.org/motoenduroboy/dbans.svg?branch=master)](https://travis-ci.org/motoenduroboy/dbans)
-An API to communicate with bans.discordlist.net (Unoffical)
+An API to communicate with bans.discord.id (Unoffical)
 
 ## Install
 ```
@@ -21,12 +21,13 @@ DBans.check("USERID").then(ban => {
 
 #### Return Object
 Example
+If banned:
 ```js
 {
-  "banID": "5403",
-  "username": "Warfare#2239",
-  "userID": "270572289035206657",
+  "banned": "1",
+  "case_id": "5403",
   "reason": "Mention Raid",
   "proof": "http://tinyurl.com/ybyzsy53"
 }
 ```
+If not banned it will return false!
