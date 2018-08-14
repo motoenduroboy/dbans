@@ -1,4 +1,3 @@
-const https = require('https');
 const request = require('request');
 
 /**
@@ -54,7 +53,7 @@ class DBans {
   /**
   * Checks if a User is on Dbans
   * @arg {string} userID The ID of the user you want to check
-  * @returns {Promise} Resolves when a response comes back from https://bans.discordlist.net/api
+  * @returns {Promise} Resolves when a response comes back from https://bans.discord.id/api/check.php
   */
   check (userID) {
     return new Promise((resolve, reject) => {
@@ -63,30 +62,21 @@ class DBans {
       } else {
         if (this.options.cache === false || !(this.cache && this.cache.get(userID))) {
             request.post({
-              url: 'https://bans.discordlist.net/api',
-              form: {
-                'version':  '3',
-                'token':    this.token,
-                'userid':   userID
+              url: `https://bans.discord.id/api/check.php?user_id=${userID}`,
+              headers: {
+                'Authorization': this.token,
               }
             }, (err, res, body) => {
               if (err) {
                 reject(err);
               } else {
                 try {
-                  if (body !== "False") {
-                    body = body ? JSON.parse(body) : [];
-                    const ban = {
-                      banID: body[0],
-                      username: body[1],
-                      userID: body[2],
-                      reason: body[3],
-                      proof: body[4].split("\"")[1]
-                    }
+				  body = JSON.parse(body);
+                  if (body.banned === "1") {
                     if (this.options.cache) {
-                      this.cache.set(userID, ban, this.options.cacheTimeout);
+                      this.cache.set(userID, body, this.options.cacheTimeout);
                     }
-                    resolve(ban);
+                    resolve(body);
                   } else {
                     if (this.options.cache) {
                       this.cache.set(userID, false, this.options.cacheTimeout);
