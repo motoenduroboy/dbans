@@ -3,7 +3,7 @@
   "description": "An API to communicate with bans.discordlist.net",
   "author": "motoenduroboy",
   "main": "index.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {
     "request": "^2.88.0"
   },

@@ -71,18 +71,11 @@ class DBans {
                 reject(err);
               } else {
                 try {
-				  body = JSON.parse(body);
-                  if (body.banned === "1") {
-                    if (this.options.cache) {
-                      this.cache.set(userID, body, this.options.cacheTimeout);
-                    }
-                    resolve(body);
-                  } else {
-                    if (this.options.cache) {
-                      this.cache.set(userID, false, this.options.cacheTimeout);
-                    }
-                    resolve(false);
+				  body = JSON.parse(body)[0];
+                  if (this.options.cache) {
+                    this.cache.set(userID, body, this.options.cacheTimeout);
                   }
+                  resolve(body);
                 } catch (err) {
                   reject(err);
                 }
@@ -90,6 +83,54 @@ class DBans {
             });
         } else if (this.options.cache === true && this.cache && this.cache.get(userID)) {
           resolve(this.cache.get(userID));
+        }
+      }
+    });
+  }
+
+  checkUsers (userIDs) {
+    return new Promise((resolve, reject) => {
+      if (typeof userIDs === 'array' && userIDs.length > 0) {
+        reject(new Error("No UserIDs Provided!"));
+    } else if (userIDs.length > 99) {
+        reject(new Error("Max of 99 users!"))
+    } else {
+        let bans = [];
+        let toScan = [];
+        for (let userID of userIDs) {
+          if (this.options.cache === false || !(this.cache && this.cache.get(userID))) {
+            toScan.push(userID);
+          } else {
+            let ban = this.cache.get(userID);
+            bans.push(ban);
+          }
+        }
+        if (toScan.length > 0) {
+          request.post({
+            url: `https://bans.discord.id/api/check.php?user_id=${toScan.join(`&user_id=`)}`,
+            headers: {
+              'Authorization': this.token,
+            }
+          }, (err, res, body) => {
+            if (err) {
+              reject(err);
+            } else {
+              try {
+    		    body = JSON.parse(body);
+                for (let ban of body) {
+                  if (this.options.cache) {
+                    this.cache.set(ban.user_id, ban, this.options.cacheTimeout);
+                  }
+                }
+                bans = bans.concat(body);
+                resolve(bans);
+              } catch (err) {
+                reject(err);
+              }
+            }
+          });
+        } else {
+            resolve(bans);
         }
       }
     });
